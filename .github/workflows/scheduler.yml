@@ -1,0 +1,15 @@
+name: Scheduled Job
+
+on:
+  schedule:
+   - cron: '* * * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  run-scheduled-task:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call my API endpoint closed
+        run: running scheduler
