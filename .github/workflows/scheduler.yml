@@ -12,4 +12,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Call my API endpoint closed
-        run: running scheduler
+        run: echo running scheduler
