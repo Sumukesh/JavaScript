@@ -11,5 +11,12 @@ jobs:
   run-scheduled-task:
     runs-on: ubuntu-latest
     steps:
+      # Step 1: Get OAuth Token
+      - name: Get OAuth Token
+        id: get_token
+        run: |
+          TOKEN="sdsad" \
+          echo "TOKEN=$TOKEN" >> $GITHUB_ENV
+        
       - name: Call my API endpoint closed
-        run: echo running scheduler
+        run: echo running scheduler ${{ env.TOKEN }}
