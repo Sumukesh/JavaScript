@@ -15,8 +15,8 @@ jobs:
       - name: Get OAuth Token
         id: get_token
         run: |
-          TOKEN="sdsad" \
+          TOKEN="ajcn9i3nvrn9302sadsd"
           echo "TOKEN=$TOKEN" >> $GITHUB_ENV
         
       - name: Call my API endpoint closed
-        run: echo running scheduler ${{ env.TOKEN }}
+        run: echo "running scheduler ${{ env.TOKEN }}"
