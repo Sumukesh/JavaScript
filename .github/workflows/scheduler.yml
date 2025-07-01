@@ -15,7 +15,7 @@ jobs:
       - name: Get OAuth Token
         id: get_token
         run: |
-          TOKEN="ajcn9i3nvrn9302sadsd"
+          TOKEN="${{ secrets.OAUTH_KEY }}"
           echo "TOKEN=$TOKEN" >> $GITHUB_ENV
         
       - name: Call my API endpoint closed
