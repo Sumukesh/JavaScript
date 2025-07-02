@@ -1,0 +1,41 @@
+name: Call Microsoft Graph API
+
+on:
+  workflow_dispatch: # This allows manual trigger of the workflow
+
+jobs:
+  authenticate_and_call_graph_api:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Get OAuth2 Token from Azure AD
+        id: auth
+        run: |
+          tenant_id="${{ secrets.AZURE_TENANT_ID }}"
+          client_id="${{ secrets.AZURE_CLIENT_ID }}"
+          client_secret="${{ secrets.AZURE_CLIENT_SECRET }}"
+
+          # Get the OAuth2 token
+          response=$(curl -X POST https://login.microsoftonline.com/${tenant_id}/oauth2/v2.0/token \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "grant_type=client_credentials&client_id=${client_id}&client_secret=${client_secret}&scope=https://graph.microsoft.com/.default")
+
+          # Extract the access token from the response
+          access_token=$(echo $response | jq -r '.access_token')
+
+          # Set the token as an output variable
+          echo "::set-output name=access_token::$access_token"
+
+      - name: Call Microsoft Graph API
+        run: |
+          access_token="${{ steps.auth.outputs.access_token }}"
+          
+          # Make a call to Microsoft Graph API (e.g., to get user info)
+          response=$(curl -X GET https://graph.microsoft.com/v1.0/me \
+            -H "Authorization: Bearer ${access_token}")
+
+          # Output the response
+          echo "Graph API Response: $response"
