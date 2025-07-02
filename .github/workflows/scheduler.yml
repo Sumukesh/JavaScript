@@ -2,8 +2,7 @@ name: Scheduled Job
 
 on:
   schedule:
-    # Run daily at 5 AM
-    cron: '*/5 * * * *'
+   - cron: '* * * * *'
 
 permissions:
   contents: read
