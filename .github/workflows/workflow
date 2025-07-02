@@ -1,0 +1,12 @@
+name: Test trigger
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test_trigger:
+    runs-on: ubuntu-latest
+steps:
+      - name: Print Hello Message
+        run: |
+          echo "Hello,"
