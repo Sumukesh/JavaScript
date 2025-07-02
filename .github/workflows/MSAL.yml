@@ -1,7 +1,7 @@
 name: Call Microsoft Graph API
 
 on:
-  workflow_dispatch: # This allows manual trigger of the workflow
+  workflow_dispatch:  # This allows manual trigger of the workflow
 
 jobs:
   authenticate_and_call_graph_api:
@@ -23,13 +23,26 @@ jobs:
             -H "Content-Type: application/x-www-form-urlencoded" \
             -d "grant_type=client_credentials&client_id=${client_id}&client_secret=${client_secret}&scope=https://graph.microsoft.com/.default")
 
+          # Print the entire response for debugging
+          echo "Response from OAuth2 token request: $response"
+
           # Extract the access token from the response
           access_token=$(echo $response | jq -r '.access_token')
+
+          # Check if the token was received
+          if [ -z "$access_token" ]; then
+            echo "Error: No access token received."
+            echo "Skipping API call."
+            exit 1  # Exit the job if no token is received
+          else
+            echo "Access token received successfully."
+          fi
 
           # Set the token as an output variable
           echo "::set-output name=access_token::$access_token"
 
       - name: Call Microsoft Graph API
+        if: ${{ steps.auth.outputs.access_token != '' }}  # Skip if the token is empty
         run: |
           access_token="${{ steps.auth.outputs.access_token }}"
           
