@@ -21,13 +21,14 @@ jobs:
           # Get the OAuth2 token
           response=$(curl -X POST https://login.microsoftonline.com/${tenant_id}/oauth2/v2.0/token \
             -H "Content-Type: application/x-www-form-urlencoded" \
-            -d "grant_type=client_credentials&client_id=${client_id}&client_secret=${client_secret}&scope=https://graph.microsoft.com/.default")
+            -d "grant_type=client_credentials&client_id=${client_id}&client_secret=${client_secret}&scope=https://graph.microsoft.com/.default" | jq -r '.access_token')
 
           # Print the entire response for debugging
           echo "Response from OAuth2 token request: $response"
 
           # Extract the access token from the response
-          access_token=$(echo $response | jq -r '.access_token')
+          # access_token=$(echo $response | jq -r '.access_token')
+          access_token = $response
 
           # Check if the token was received
           if [ -z "$access_token" ]; then
