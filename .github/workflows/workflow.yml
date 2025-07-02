@@ -6,7 +6,6 @@ on:
 jobs:
   test_trigger:
     runs-on: ubuntu-latest
-steps:
+    steps:
       - name: Print Hello Message
-        run: |
-          echo "Hello,"
+        run: echo "Hello,"
