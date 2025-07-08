@@ -8,4 +8,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print Hello Message
-        run: echo "Hello, Changes"
+        run: echo "Hello, new Changes"
